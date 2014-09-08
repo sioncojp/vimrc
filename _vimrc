@@ -1,57 +1,21 @@
- set nocompatible               " be iMproved
- filetype off                   " required!
-
- set rtp+=~/.vim/bundle/vundle/
- call vundle#rc()
-
-Bundle 'altercation/vim-colors-solarized'
-
- " let Vundle manage Vundle
- " required! 
- Bundle 'gmarik/vundle'
-
- " My Bundles here:
- "
- " original repos on github
- Bundle 'tpope/vim-fugitive'
- Bundle 'Lokaltog/vim-easymotion'
- Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
- Bundle 'tpope/vim-rails.git'
- " vim-scripts repos
- Bundle 'L9'
- Bundle 'FuzzyFinder'
- " non github repos
- Bundle 'git://git.wincent.com/command-t.git'
- " git repos on your local machine (ie. when working on your own plugin)
- Bundle 'file:///Users/gmarik/path/to/plugin'
- " ...
-
- filetype plugin indent on     " required!
- "
- " Brief help
- " :BundleList          - list configured bundles
- " :BundleInstall(!)    - install(update) bundles
- " :BundleSearch(!) foo - search(or refresh cache first) for foo
- " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
- "
- " see :h vundle for more details or wiki for FAQ
- " NOTE: comments after Bundle command are not allowed..
-syntax enable
-
 "Neobundle set up
 set nocompatible
-filetype off 
+filetype plugin indent off 
 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   call neobundle#rc(expand('~/.vim/bundle/'))
 endif
+
 " originalrepos on github
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'altercation/vim-colors-solarized'
 
 " ファイルオープンを便利に
 NeoBundle 'Shougo/unite.vim'
+
 " Unite.vimで最近使ったファイルを表示できるようにする
 NeoBundle 'Shougo/neomru.vim'
 
@@ -84,6 +48,10 @@ NeoBundle 'tpope/vim-rails'
 
 " ファイルをtree表示してくれる
 NeoBundle 'scrooloose/nerdtree'
+" ブックマークを最初から表示
+let g:NERDTreeShowBookmarks=1
+" ファイル指定で開かれた場合はNERDTreeは表示しない
+autocmd vimenter * if !argc() | NERDTree | endif
 
 " Ruby向けにendを自動挿入してくれる
 NeoBundle 'tpope/vim-endwise'
@@ -109,18 +77,18 @@ NeoBundle 'bronson/vim-trailing-whitespace'
 """"""""""""""""""""""""""""""
 " 全角スペースの表示
 """"""""""""""""""""""""""""""
-function! ZenkakuSpace()
-    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
-endfunction
-
-if has('syntax')
-    augroup ZenkakuSpace
-        autocmd!
-        autocmd ColorScheme * call ZenkakuSpace()
-        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
-    augroup END
-    call ZenkakuSpace()
-endif
+"function! ZenkakuSpace()
+"    highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=darkgray
+"endfunction
+"
+"if has('syntax')
+"    augroup ZenkakuSpace
+"        autocmd!
+"        autocmd ColorScheme * call ZenkakuSpace()
+"        autocmd VimEnter,WinEnter,BufRead * let w:m1=matchadd('ZenkakuSpace', '　')
+"    augroup END
+"    call ZenkakuSpace()
+"endif
 """""""""""""""""""""""""""""
 
 " https://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample
@@ -169,16 +137,22 @@ imap ( ()<LEFT>
 """"""""""""""""""""""""""""""
 " 最後のカーソル位置を復元する
 """"""""""""""""""""""""""""""
-if has("autocmd")
-    autocmd BufReadPost *
-    \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-    \   exe "normal! g'\"" |
-    \ endif
-endif
+function! s:RestoreCursorPostion()
+  if line("'\"") <= line("$")
+    normal! g`"
+    return 1
+  endif
+endfunction
+" ファイルを開いた時に、以前のカーソル位置を復元する
+augroup vimrc_restore_cursor_position
+  autocmd!
+  autocmd BufWinEnter * call s:RestoreCursorPostion()
+augroup END
 """"""""""""""""""""""""""""""
 
-filetype plugin on
-filetype indent on
+
+filetype plugin indent on
 
 set background=dark
 colorscheme solarized
+syntax enable
