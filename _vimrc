@@ -6,20 +6,47 @@ if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
   call neobundle#begin(expand('~/.vim/bundle/'))
   NeoBundleFetch 'Shougo/neobundle.vim'
+  " originalrepos on github
+  NeoBundle 'Shougo/neobundle.vim'
+  NeoBundle 'Shougo/vimproc'
+  NeoBundle 'altercation/vim-colors-solarized'
+  NeoBundle 'altercation/vim-colors-solarized'
+  " ファイルオープンを便利に
+  NeoBundle 'Shougo/unite.vim'
+
+  " Unite.vimで最近使ったファイルを表示できるようにする
+  NeoBundle 'Shougo/neomru.vim'
+
+  " Rails向けのコマンドを提供する
+  NeoBundle 'tpope/vim-rails'
+
+  " ファイルをtree表示してくれる
+  NeoBundle 'scrooloose/nerdtree'
+  
+  " Ruby向けにendを自動挿入してくれる
+  NeoBundle 'tpope/vim-endwise'
+
+  " インデントに色を付けて見やすくする
+  NeoBundle 'nathanaelkane/vim-indent-guides'
+
+  "入力中、保管してくれる
+  NeoBundle 'Shougo/neocomplcache' 
+  " スニペット補完プラグイン
+  NeoBundle 'Shougo/neosnippet'
+  " 各種スニペット
+  NeoBundle 'Shougo/neosnippet-snippets'
+  "辞書
+  NeoBundle 'ref.vim'
+
+  " ログファイルを色づけしてくれる
+  NeoBundle 'vim-scripts/AnsiEsc.vim'
+
+  " 行末の半角スペースを可視化
+  NeoBundle 'bronson/vim-trailing-whitespace'
+
   call neobundle#end()
 endif
 
-" originalrepos on github
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'altercation/vim-colors-solarized'
-
-" ファイルオープンを便利に
-NeoBundle 'Shougo/unite.vim'
-
-" Unite.vimで最近使ったファイルを表示できるようにする
-NeoBundle 'Shougo/neomru.vim'
 
 " http://blog.remora.cx/2010/12/vim-ref-with-unite.html
 """"""""""""""""""""""""""""""
@@ -45,21 +72,10 @@ au FileType unite inoremap <silent> <buffer> <expr> <C-K> unite#do_action('vspli
 au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 
-" Rails向けのコマンドを提供する
-NeoBundle 'tpope/vim-rails'
-
-" ファイルをtree表示してくれる
-NeoBundle 'scrooloose/nerdtree'
 " ブックマークを最初から表示
 let g:NERDTreeShowBookmarks=1
 " ファイル指定で開かれた場合はNERDTreeは表示しない
 autocmd vimenter * if !argc() | NERDTree | endif
-
-" Ruby向けにendを自動挿入してくれる
-NeoBundle 'tpope/vim-endwise'
-
-" インデントに色を付けて見やすくする
-NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
 " vim-indent-guides
@@ -68,12 +84,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=110
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=140
 let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_guide_size=1
-
-" ログファイルを色づけしてくれる
-NeoBundle 'vim-scripts/AnsiEsc.vim'
-
-" 行末の半角スペースを可視化
-NeoBundle 'bronson/vim-trailing-whitespace'
 
 " http://inari.hatenablog.com/entry/2014/05/05/231307
 """"""""""""""""""""""""""""""
@@ -135,15 +145,6 @@ imap { {}<LEFT>
 imap [ []<LEFT>
 imap ( ()<LEFT>
 """"""""""""""""""""""""""""""
-"入力中、保管してくれる
-NeoBundle 'Shougo/neocomplcache' 
-" スニペット補完プラグイン
-NeoBundle 'Shougo/neosnippet'
-" 各種スニペット
-NeoBundle 'Shougo/neosnippet-snippets'
-"辞書
-NeoBundle 'ref.vim'
-
 
 "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
